@@ -1,34 +1,86 @@
 "use strict";
 
-// setTimeout(function () {
-//   if (
-//     document.getElementsByTagName("html")[0].classList.contains("typesquare_option") !=
-//     true
-//   ) {
-//     document.body.classList.remove("fadeout");
-//   }
-// }, 2000);
+// ===== init =====
+const init = () => {
+  // # load fonts
+  loadFonts();
+  // # app height
+  appHeight();
+  // # header logo
+  handleHeaderLogo();
+  // # initTabs
+  initTabs();
+  // # lazy load
+  initLazyLoad();
+  // # init custom cursor
+  initCustomCursor();
+};
 
-// const myInterval = setInterval(doStuff, 500);
-// function doStuff() {
-//   if (
-//     document.getElementsByTagName("body")[0].classList.contains("typesquare_option")
-//   ) {
-//     clearInterval(myInterval);
-//     document.body.classList.remove("fadeout");
-//   }
-// }
+// ===== load fonts =====
+const loadFonts = () => {
+  // when page en add class "en"
+  if (document.URL.match("/en/")) {
+    document.body.classList.add("en");
+  }
+  // wait font loaded
+  if (typeof Ts !== "undefined" && Ts.onComplete) {
+    Ts.onComplete(() => {
+      document.querySelectorAll(".typesquare_option").forEach((el) => {
+        el.classList.remove("typesquare_option");
+        document.body.classList.remove("fadeout");
+      });
+    });
+  } else {
+    // Fallback: remove class after 2 second if Ts.onComplete null
+    setTimeout(() => {
+      document.querySelectorAll(".typesquare_option").forEach((el) => {
+        el.classList.remove("typesquare_option");
+        document.body.classList.remove("fadeout");
+      });
+    }, 2000);
+  }
+};
 
-/* ------------------------------ refresh page ------------------------------ */
+// ===== lazy load =====
+const initLazyLoad = function () {
+  const images = document.querySelectorAll(
+    'img[loading="lazy"], img.cld-responsive, img.cld-lazy, img[src^="data:image/svg+xml"]'
+  );
 
-$(window).on("pageshow load", function () {
-  setTimeout(function () {
-    $("body").removeClass("fadeout");
-  }, 1000);
-});
+  const observer = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          if (
+            img.complete &&
+            img.naturalWidth !== 0 &&
+            !img.src.startsWith("data:image/svg+xml")
+          ) {
+            img.classList.add("loaded");
+          } else {
+            img.addEventListener(
+              "load",
+              () => {
+                if (!img.src.startsWith("data:image/svg+xml")) {
+                  img.classList.add("loaded");
+                }
+              },
+              { once: true }
+            );
+          }
 
-/* --------------------------- resize mobile 100vh -------------------------- */
+          observer.unobserve(img);
+        }
+      });
+    },
+    { rootMargin: "0px 0px 100px 0px" }
+  ); // preload 100px before entering viewport
 
+  images.forEach((img) => observer.observe(img));
+};
+
+// ===== app height =====
 const appHeight = () => {
   const doc = document.documentElement;
   doc.style.setProperty(
@@ -36,268 +88,199 @@ const appHeight = () => {
     `${document.documentElement.clientHeight}px`
   );
 
-  var windowHeight = Math.max(
-    document.documentElement.clientHeight,
-    window.innerHeight || 0
-  );
-
-  document.querySelector(".c-header__menu").style.height = windowHeight + "px";
+  if (window.innerWidth < 1024) {
+    const windowHeight = Math.max(
+      document.documentElement.clientHeight,
+      window.innerHeight || 0
+    );
+    document.querySelector("[data-navbar]").style.height = windowHeight + "px";
+  }
 };
 window.addEventListener("resize", appHeight);
-appHeight();
 
-/* ------------------------------- check lang ------------------------------- */
-const myBogo = setInterval(doBogo, 500);
-const langBogo = document.querySelector(".bogo-language-switcher .current");
+// ===== href fadeout =====
+document.addEventListener("click", function (e) {
+  const link = e.target.closest(
+    'a:not([href^="#"]):not([target]):not([href^="mailto"]):not([href^="tel"])'
+  );
+  if (!link) return;
 
-function doBogo() {
-  if (langBogo.classList.contains("ja")) {
-    langBogo.innerText = "JP";
-    clearInterval(myBogo);
-  } else {
-    langBogo.innerText = "EN";
-    clearInterval(myBogo);
+  e.preventDefault();
+  const url = link.getAttribute("href");
+
+  if (url && url !== "") {
+    const idx = url.indexOf("#");
+    const hash = idx !== -1 ? url.substring(idx) : "";
+
+    if (hash && hash !== "#") {
+      try {
+        const targetElement = document.querySelector(hash);
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+          return false;
+        }
+      } catch (err) {
+        console.error("Invalid hash selector:", hash, err);
+      }
+    }
+
+    document.body.classList.add("fadeout");
+    setTimeout(function () {
+      window.location = url;
+    }, 500);
   }
+
+  return false;
+});
+
+// ===== scroll logo scale =====
+const throttle = (func, limit) => {
+  let lastFunc;
+  let lastRan;
+  return function () {
+    const context = this;
+    const args = arguments;
+    if (!lastRan) {
+      func.apply(context, args);
+      lastRan = Date.now();
+    } else {
+      clearTimeout(lastFunc);
+      lastFunc = setTimeout(function () {
+        if (Date.now() - lastRan >= limit) {
+          func.apply(context, args);
+          lastRan = Date.now();
+        }
+      }, limit - (Date.now() - lastRan));
+    }
+  };
+};
+
+const headerLogo = document.querySelector("[data-header-logo]");
+const handleHeaderLogo = function () {
+  const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+  if (!headerLogo.classList.contains("js-scale")) {
+    return;
+  }
+  headerLogo.classList.toggle("is-scale", scrollPosition > 100);
+};
+window.addEventListener("scroll", throttle(handleHeaderLogo, 100));
+
+// ===== menu toggle =====
+const [navTogglers, navbar] = [
+  document.querySelectorAll("[data-nav-toggler]"),
+  document.querySelectorAll("[data-navbar]"),
+];
+navTogglers.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const shouldBeActive = !btn.classList.contains("active");
+    btn.classList.toggle("active");
+    navbar.forEach((nav) => nav.classList.toggle("active", shouldBeActive));
+    window.innerWidth < 1024 &&
+      document.body.classList.toggle("active", shouldBeActive);
+  });
+});
+
+// ===== accordion =====
+const accordions = document.querySelectorAll("[data-accordion]");
+for (let i = 0; i < accordions.length; i++) {
+  accordions[i].addEventListener("click", function () {
+    this.classList.toggle("active");
+    const panel = this.nextElementSibling;
+    if (panel) {
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+      } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+      }
+    }
+  });
 }
 
-/* ---------------------------- lick link fadeout --------------------------- */
+// ===== handle tabs change =====
+const initTabs = () => {
+  const tabs = document.querySelectorAll("[data-tabs-items]");
+  const contents = document.querySelectorAll("[data-tabs-content]");
 
-$(document).on("click", 'a[href^="#"]', function (e) {
-  e.preventDefault();
-});
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => {
+      // remove all class items/content
+      tabs.forEach((t) => t.classList.remove("active"));
+      contents.forEach((c) => c.classList.remove("active"));
 
-$(document).on(
-  "click",
-  'a:not([href^="#"]):not([target]):not([href^="mailto"])',
-  function (e) {
-    e.preventDefault();
-    const url = $(this).attr("href");
-
-    if (url !== "") {
-      const idx = url.indexOf("#");
-      const hash = idx != -1 ? url.substring(idx) : "";
-
-      if ($(hash).length > 0) {
-        $("html, body").animate(
-          {
-            scrollTop: $(hash).offset().top,
-          },
-          300
-        );
-        return false;
-      }
-
-      $("body").addClass("fadeout");
-      setTimeout(function () {
-        window.location = url;
-      }, 600);
-    }
-    return false;
-  }
-);
-
-/* ----------------------------- scroll logo scale ----------------------------- */
-
-const logoScale = document.querySelector(".c-header__logo.js-scale");
-
-window.onscroll = function () {
-  if (logoScale) {
-    scrollFunction();
-  }
-};
-
-const scrollFunction = () => {
-  if (
-    document.body.scrollTop > 100 ||
-    document.documentElement.scrollTop > 100
-  ) {
-    logoScale.classList.add("is-scale");
-  } else {
-    logoScale.classList.remove("is-scale");
-  }
-};
-
-/* ---------------------- add event on multiple element --------------------- */
-
-const addEventOnElements = function (elements, eventType, callback) {
-  for (let i = 0; i < elements.length; i++) {
-    elements[i].addEventListener(eventType, callback);
-  }
-};
-
-/* ------------------------- mobile nav menu toggle ------------------------- */
-
-const [navTogglers, navLinks, navbar, navIcon, langSP] = [
-  document.querySelectorAll("[data-nav-toggler]"),
-  document.querySelectorAll("[data-nav-link]"),
-  document.querySelector("[data-navbar]"),
-  document.querySelector("[data-icon]"),
-  document.querySelector("[data-lang-sp]"),
-];
-
-const toggleNav = () => {
-  navbar.classList.toggle("active");
-  navIcon.classList.toggle("active");
-  langSP.classList.toggle("active");
-  document.body.classList.toggle("active");
-  document.body.classList.toggle("active");
-};
-
-addEventOnElements(navTogglers, "click", toggleNav);
-
-const closeNav = () => {
-  navbar.classList.remove("active");
-  navIcon.classList.remove("active");
-  document.body.classList.remove("active");
-};
-
-addEventOnElements(navLinks, "click", closeNav);
-
-/* ------------------------------- tab switch ------------------------------- */
-$(document).on("click", ".tab-link", function () {
-  let tabID = $(this).attr("data-tab");
-
-  $(this).addClass("active").siblings().removeClass("active");
-  $("#tab-" + tabID)
-    .addClass("active")
-    .siblings()
-    .removeClass("active");
-});
-
-/* --------------------------------- swiper --------------------------------- */
-const deactiveButton = () => {
-  if ($(".button-swiper").hasClass("swiper-button-disabled")) {
-    $(".button-swiper").removeClass("swiper-button-disabled");
-    $(".button-swiper").attr("aria-disabled", "false");
-    $(".button-swiper").removeAttr("disabled");
-  }
-};
-
-const swiperFunction = () => {
-  if (document.querySelector(".swiperDetail")) {
-    const swiper = new Swiper(".swiperDetail", {
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-      speed: 600,
-      slidesPerView: "auto",
-      breakpoints: {
-        0: {
-          spaceBetween: 10,
-          draggable: true,
-        },
-        1024: {
-          spaceBetween: 20,
-          draggable: false,
-        },
-      },
-      on: {
-        beforeInit: function () {
-          let numOfSlides =
-            this.wrapperEl.querySelectorAll(".swiper-slide").length;
-          document.querySelector(".slider-total").innerHTML =
-            "/ " + numOfSlides;
-        },
-      },
+      // add class item/click show/content
+      tab.classList.add("active");
+      contents[index].classList.add("active");
     });
-
-    // deactive button control
-    deactiveButton();
-    swiper.on("slideNextTransitionStart", function () {
-      deactiveButton();
-    });
-    swiper.on("slidePrevTransitionStart", function () {
-      deactiveButton();
-    });
-  }
+  });
 };
 
-swiperFunction();
-
-/* ------------------------------ custom cursor ----------------------------- */
-
-const cursorPrev = document.querySelector(".cursor-prev");
-const cursorNext = document.querySelector(".cursor-next");
-
-function mousemoveHandler(e) {
-  const target = e.target;
-  const tl = gsap.timeline({
-    defaults: {
-      x: e.clientX,
-      y: e.clientY,
-      ease: "power2.out",
+// ===== single projects =====
+const swiperProjects = new Swiper("[data-projects-swiper]", {
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+  speed: 600,
+  slidesPerView: "auto",
+  preloadImages: false,
+  lazy: {
+    loadPrevNext: true,
+  },
+  watchSlidesVisibility: true,
+  breakpoints: {
+    0: {
+      spaceBetween: 10,
+      draggable: true,
     },
+    1024: {
+      spaceBetween: 20,
+      draggable: false,
+    },
+  },
+  on: {
+    beforeInit: function () {
+      let numOfSlides = this.wrapperEl.querySelectorAll(".swiper-slide").length;
+      document.querySelector(".slider-total").innerHTML = "/ " + numOfSlides;
+    },
+  },
+});
+
+// ===== init custom cursor =====
+const initCustomCursor = () => {
+  const cursorPrev = document.querySelector(".cursor-prev");
+  const cursorNext = document.querySelector(".cursor-next");
+  const swiper = document.querySelector("[data-projects-swiper]");
+
+  if (!cursorPrev || !cursorNext || !swiper) return;
+
+  document.addEventListener("mousemove", (e) => {
+    cursorPrev.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    cursorNext.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+
+    const target = e.target;
+    if (target.closest(".swiper-button-next")) {
+      cursorNext.classList.add("active");
+      cursorPrev.classList.remove("active");
+    } else if (target.closest(".swiper-button-prev")) {
+      cursorPrev.classList.add("active");
+      cursorNext.classList.remove("active");
+    } else {
+      cursorPrev.classList.remove("active");
+      cursorNext.classList.remove("active");
+    }
   });
 
-  if (
-    document.querySelector(".swiper-button-next") &&
-    document.querySelector(".swiper-button-prev")
-  ) {
-    // hover section slider
-    if (
-      target.tagName.toLowerCase() === "button" &&
-      target.closest(".swiper-button-next")
-    ) {
-      tl.to(cursorPrev, {
-        opacity: 0,
-      }).to(
-        cursorNext,
-        {
-          opacity: 1,
-        },
-        "-=0.5"
-      );
-    } else if (
-      target.tagName.toLowerCase() === "button" &&
-      target.closest(".swiper-button-prev")
-    ) {
-      tl.to(cursorPrev, {
-        opacity: 1,
-      }).to(
-        cursorNext,
-        {
-          opacity: 0,
-        },
-        "-=0.5"
-      );
-    } else {
-      tl.to(".cursor", {
-        opacity: 0,
-      });
-    }
-  }
-}
+  swiper.addEventListener("mouseleave", () => {
+    cursorPrev.classList.remove("active");
+    cursorNext.classList.remove("active");
+  });
+};
 
-function mouseleaveHandler() {
-  if (document.querySelector(".cursor")) {
-    gsap.to(".cursor", {
-      opacity: 0,
-    });
-  }
-}
-
-document.addEventListener("mousemove", mousemoveHandler);
-document.addEventListener("mouseleave", mouseleaveHandler);
-
-/* ---------------------- catch select href not working --------------------- */
-
-$(function () {
-  let isIOS =
-    (/iPad|iPhone|iPod/.test(navigator.platform) ||
-      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)) &&
-    !window.MSStream;
-  if (isIOS) {
-    $("a").on("click touchend", function () {
-      let link = $(this).attr("href");
-      let target = $(this).attr("target");
-      if (target === "_blank") {
-        window.open(link, "blank"); // opens in new window as requested
-        return false; // prevent anchor click
-      }
-    });
-  }
-});
+// ### ===== DOM ===== ###
+window.addEventListener("DOMContentLoaded", init);
 
 /* -------------------------------- lightbox -------------------------------- */
 
@@ -405,15 +388,6 @@ function swiperImages() {
       },
     },
   });
-
-  // deactive button control
-  deactiveButton();
-  swiperLb.on("slideNextTransitionStart", function () {
-    deactiveButton();
-  });
-  swiperLb.on("slidePrevTransitionStart", function () {
-    deactiveButton();
-  });
 }
 
 swiperImages();
@@ -459,27 +433,4 @@ const toggleText = function () {
   }
 };
 
-addEventOnElements(textTogglers, "click", toggleText);
-
-/* ---------------------------- people accordion ---------------------------- */
-
-let accordion = document.getElementsByClassName("js-accordion");
-let panel = document.getElementsByClassName("p-people__panel");
-
-if (panel) {
-  for (let i = 0; i < accordion.length; i++) {
-    accordion[i].addEventListener("click", function () {
-      this.classList.toggle("active");
-      $(this).next(".p-people__panel").slideToggle(300);
-    });
-  }
-}
-
-/* ---------------------------- english page ---------------------------- */
-
-$(window).bind("load", function () {
-  // URLにhogehogeが含まれていたら実行
-  if (document.URL.match("/en/")) {
-    $("body").addClass("en");
-  }
-});
+// addEventOnElements(textTogglers, "click", toggleText);

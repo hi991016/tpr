@@ -44,6 +44,7 @@
         <?php 
             $number = get_field('number'); 
             $category = get_the_terms(get_the_ID(), 'project_categories' ); 
+            $gallery = get_field('gallery'); 
             $years = get_field('years');
             $year = $years['year'];
         ?>
@@ -69,25 +70,18 @@
                     <!-- // -->
 
                     <div class="p-detail__swiper">
-
-                        <?php 
-                            $gallery = get_field('gallery'); 
-                        ?>
-
-                        <div class="detail-swiper swiperDetail">
+                        <div class="detail-swiper swiperDetail" data-projects-swiper>
                             <div class="swiper-wrapper">
-                                
                                 <?php 
                                     if (!empty($gallery)) :
                                         foreach ($gallery as $key => $value) :
                                 ?>
-
-                                <div class="swiper-slide 2">
+                                <div class="swiper-slide">
                                     <figure>
                                         <img src="<?= $value["url"] ?>" alt="<?= $value["alt"] ?>" loading="lazy">
                                     </figure>
+                                    <div class="swiper-lazy-preloader"></div>
                                 </div>
-
                                 <?php 
                                         endforeach;
                                     else :
@@ -98,9 +92,7 @@
                                 <?php 
                                     endif;
                                 ?>
-
                             </div>
-
                             <div class="slider-total"></div>
                             <button class="button-swiper swiper-button-next"></button>
                             <button class="button-swiper swiper-button-prev"></button>
@@ -126,17 +118,17 @@
 
                         <div class="tabs-wrapper">
                             <ul class="tabs">
-                                <li class="tab-link active" data-tab="1">overview</li>
+                                <li class="tab-link active" data-tabs-items>overview</li>
                                 <?php if (empty($post_content_info) && empty($table_content_info)) : ?>
                                     <li></li>
                                 <?php else : ?>
-                                    <li class="tab-link" data-tab="2">info</li>
+                                    <li class="tab-link" data-tabs-items>info</li>
                                 <?php endif; ?>
                             </ul>
                         </div>
 
                         <div class="content-wrapper">
-                            <div class="tab-content active" id="tab-1">
+                            <div class="tab-content active" data-tabs-content>
                                 <div class="tab-content--top">
                                     <?= $post_content_overview; ?>
                                 </div>
@@ -166,7 +158,7 @@
                                 </div>
                             </div>
 
-                            <div class="tab-content" id="tab-2">
+                            <div class="tab-content" data-tabs-content>
                                 <div class="tab-content--top">
                                     <?= $post_content_info; ?>
                                 </div>

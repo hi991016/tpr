@@ -5,32 +5,40 @@
     <!-- @meta -->
     <meta charset="UTF-8">
     <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="title" content="TOKYO PHOTOGRAPHIC RESEARCH" />
     <meta name="description"
         content="TOKYO PHOTOGRAPHIC RESEARCH is a project founded by the photographer Taisuke Koyama and the curator Junya Yamamine to plan, manage, and execute a lateral and organic collaboration by artists, curators, designers, and researchers. Projects revolving around the theme of Tokyo led by artists who render each of their multifaceted studies on various relevant matters of today — including cultures engendered by the progress of contemporary technology and media environment — via photography and video will continue to be released on its website up to autumn 2020. It also plans to implement offline programs, including talk events and special projects, in the aims to serve as a platform fostering an exchange of various perspectives.">
 
     <!-- @meta facebook -->
-    <meta property="og:url" content="https://www.tokyophotographicresearch.jp/">
-    <meta property="og:title" content="TOKYO PHOTOGRAPHIC RESEARCH">
-    <meta property="og:site_name" content="TOKYO PHOTOGRAPHIC RESEARCH">
-    <meta property="og:description"
-        content="TOKYO PHOTOGRAPHIC RESEARCH is a project founded by the photographer Taisuke Koyama and the curator Junya Yamamine to plan, manage, and execute a lateral and organic collaboration by artists, curators, designers, and researchers. Projects revolving around the theme of Tokyo led by artists who render each of their multifaceted studies on various relevant matters of today — including cultures engendered by the progress of contemporary technology and media environment — via photography and video will continue to be released on its website up to autumn 2020. It also plans to implement offline programs, including talk events and special projects, in the aims to serve as a platform fostering an exchange of various perspectives.">
+    <meta property="og:locale" content="ja">
     <meta property="og:type" content="website">
-    <meta property="og:image"
-        content="https://www.tokyophotographicresearch.jp/admin/wp-content/uploads/2019/08/og.png">
+    <meta property="og:site_name" content="TOKYO PHOTOGRAPHIC RESEARCH">
+    <meta property="og:title" content="TOKYO PHOTOGRAPHIC RESEARCH">
+    <meta property="og:description" content="TOKYO PHOTOGRAPHIC RESEARCH is a project founded by the photographer Taisuke Koyama and the curator Junya Yamamine to plan, manage, and execute a lateral and organic collaboration by artists, curators, designers, and researchers. Projects revolving around the theme of Tokyo led by artists who render each of their multifaceted studies on various relevant matters of today — including cultures engendered by the progress of contemporary technology and media environment — via photography and video will continue to be released on its website up to autumn 2020. It also plans to implement offline programs, including talk events and special projects, in the aims to serve as a platform fostering an exchange of various perspectives.">
+    <meta property="og:image" content="https://www.tokyophotographicresearch.jp/admin/wp-content/uploads/2019/08/og.png">
+    <meta property="og:url" content="<?= home_url(); ?>">
+
+    <!-- @meta twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:site" content="TOKYO PHOTOGRAPHIC RESEARCH">
+    <meta property="twitter:title" content="TOKYO PHOTOGRAPHIC RESEARCH">
+    <meta property="twitter:description" content="TOKYO PHOTOGRAPHIC RESEARCH is a project founded by the photographer Taisuke Koyama and the curator Junya Yamamine to plan, manage, and execute a lateral and organic collaboration by artists, curators, designers, and researchers. Projects revolving around the theme of Tokyo led by artists who render each of their multifaceted studies on various relevant matters of today — including cultures engendered by the progress of contemporary technology and media environment — via photography and video will continue to be released on its website up to autumn 2020. It also plans to implement offline programs, including talk events and special projects, in the aims to serve as a platform fostering an exchange of various perspectives.">
+    <meta property="twitter:image" content="https://www.tokyophotographicresearch.jp/admin/wp-content/uploads/2019/08/og.png">
+
+    <link rel="canonical" href="<?= home_url(); ?>">
 
     <!-- @favicons -->
     <link rel="apple-touch-icon" sizes="180x180" href="<?= get_template_directory_uri() ?>/assets/img/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="<?= get_template_directory_uri() ?>/assets/img/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="<?= get_template_directory_uri() ?>/assets/img/favicons/favicon-16x16.png">
 
-    <!-- @style -->
-    <link rel="stylesheet" href="<?= get_template_directory_uri() ?>/assets/css/style.min.css?ver=1.0">
+    <!-- @master css -->
+    <link rel="stylesheet" href="<?= get_template_directory_uri() ?>/assets/css/style.min.css?ver=2.0">
 
     <!-- @adobe font -->
-    <script type="text/javascript" src="//webfonts.sakura.ne.jp/js/sakurav3.js"></script>
+    <script type="text/javascript" src="https://webfonts.sakura.ne.jp/js/sakurav3.js"></script>
     <link rel="stylesheet" href="https://use.typekit.net/fuh8jjo.css">
     
     <?php if (is_home() || is_front_page()) : ?>
@@ -47,18 +55,18 @@
     <!-- @header -->
     <header class="c-header">
         <div class="c-header__container">
-            <div class="c-header__wrapper l-wrapper">
+            <div class="c-header__wrapper">
                 <div class="c-header__left">
-                   <a href="<?= home_url(); ?>" aria-label="TOKYO PHOTOGRAPHIC RESEARCH" class="c-header__logo <?= is_home() || is_front_page() ? "js-scale" : "is-scale" ?>">
+                   <a href="<?= home_url(); ?>" aria-label="TOKYO PHOTOGRAPHIC RESEARCH" class="c-header__logo <?= is_home() || is_front_page() ? "js-scale" : "is-scale" ?>" data-header-logo>
                         <svg id="Group_660" aria-label="TOKYO PHOTOGRAPHIC RESEARCH" data-name="Group 660" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="590" height="191.432" viewBox="0 0 590 191.432">
                             <defs>
-                                <clipPath id="clip-path">
+                                <clipPath id="clip-path-logo">
                                 <rect id="Rectangle_141" data-name="Rectangle 141" width="590" height="191.432"/>
                                 </clipPath>
                             </defs>
                             <path id="Path_20" data-name="Path 20" d="M0,2v9.545H15.476V53.638H26.83V11.547H42.306V2Z" transform="translate(0 -0.772)"/>
                             <g id="Group_576" data-name="Group 576">
-                                <g id="Group_575" data-name="Group 575" clip-path="url(#clip-path)">
+                                <g id="Group_575" data-name="Group 575" clip-path="url(#clip-path-logo)">
                                 <path id="Path_21" data-name="Path 21" d="M75.185,16.526a25.8,25.8,0,0,1,4.99-8.642A22.821,22.821,0,0,1,88.166,2.1a28.258,28.258,0,0,1,21.371,0,22.9,22.9,0,0,1,7.955,5.785,25.813,25.813,0,0,1,4.99,8.642,32.3,32.3,0,0,1,1.736,10.74,31.217,31.217,0,0,1-1.736,10.522,25.147,25.147,0,0,1-4.99,8.5,22.93,22.93,0,0,1-7.955,5.676,28.718,28.718,0,0,1-21.371,0,22.851,22.851,0,0,1-7.991-5.676,25.135,25.135,0,0,1-4.99-8.5,31.2,31.2,0,0,1-1.736-10.522,32.281,32.281,0,0,1,1.736-10.74M85.563,33.592a17.087,17.087,0,0,0,2.423,5.533,12.4,12.4,0,0,0,4.34,3.941,15.018,15.018,0,0,0,13.017,0,12.417,12.417,0,0,0,4.34-3.941,17.1,17.1,0,0,0,2.423-5.533,26.3,26.3,0,0,0,.759-6.327,28.288,28.288,0,0,0-.759-6.582,17.438,17.438,0,0,0-2.423-5.677,12.312,12.312,0,0,0-4.34-3.978,15.029,15.029,0,0,0-13.017,0,12.291,12.291,0,0,0-4.34,3.978,17.424,17.424,0,0,0-2.423,5.677,28.255,28.255,0,0,0-.759,6.582,26.266,26.266,0,0,0,.759,6.327" transform="translate(-28.309 0)"/>
                                 <path id="Path_22" data-name="Path 22" d="M180.4,2V23.408L200.578,2h14.175L194.576,22.4l22.13,31.242H202.46L186.911,30.423,180.4,37V53.638H169.048V2Z" transform="translate(-65.154 -0.771)"/>
                                 <path id="Path_23" data-name="Path 23" d="M249.216,2h12.729L274.023,22.4,286.028,2h12.657L279.519,33.822V53.638H268.164V33.532Z" transform="translate(-96.052 -0.771)"/>
@@ -89,32 +97,35 @@
                     </a>
                 </div>
 
-                <div class="c-header__right pc-only">
-                    <a href="<?= home_url(); ?>" class="link">project</a>
-                    <a href="<?= home_url(); ?>/people" class="link">people</a>
-                    <a href="<?= home_url(); ?>/about" class="link">about</a>
-                    <a href="<?= home_url(); ?>/cv" class="link">cv</a>
-                    <div class="c-header__lang" data-lang-pc>
-                        <?php echo do_shortcode('[bogo]'); ?>
+                <div class="c-header__right">
+                    <div class="c-header__icon" data-nav-toggler><div class="icon"></div></div>
+                    <div class="c-header__menu pc-only" data-navbar>
+                        <div class="c-header__nav">
+                            <a href="<?= home_url(); ?>" data-nav-link>project</a>
+                            <a href="<?= home_url(); ?>/artwork" data-nav-link>artwork</a>
+                            <a href="<?= home_url(); ?>/people" data-nav-link>people</a>
+                            <a href="<?= home_url(); ?>/about" data-nav-link>about</a>
+                            <a href="<?= home_url(); ?>/cv" data-nav-link>cv</a>
+
+                            <div class="c-header__lang" data-lang-pc>
+                                <?php echo do_shortcode('[bogo]'); ?>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <div class="c-header__icon sp-only" data-nav-toggler>
-                    <div class="icon" data-icon></div>
-                </div>
-
-                <div class="c-header__lang sp-only" data-lang-sp>
-                    <?php echo do_shortcode('[bogo]'); ?>
                 </div>
             </div>
         </div>
 
         <div class="c-header__menu sp-only" data-navbar>
             <div class="c-header__content">
+                <div class="c-header__lang">
+                    <?php echo do_shortcode('[bogo]'); ?>
+                </div>
                 <div class="c-header__top">
                     <div class="c-header__wrap">
                         <div class="c-header__nav">
                             <a href="<?= home_url(); ?>" data-nav-link>project</a>
+                            <a href="<?= home_url(); ?>/artwork" data-nav-link>artwork</a>
                             <a href="<?= home_url(); ?>/people" data-nav-link>people</a>
                             <a href="<?= home_url(); ?>/about" data-nav-link>about</a>
                             <a href="<?= home_url(); ?>/cv" data-nav-link>cv</a>
@@ -139,7 +150,6 @@
                     ©︎ TOKYO PHOTOGRAPHIC RESEARCH PROJECT
                 </p>
             </div>
-        </div>
         </div>
     </header>
     <!-- @@header -->

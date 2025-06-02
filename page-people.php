@@ -36,7 +36,6 @@
                                 foreach ( $array as $value ) {
                                     $group[$value['alphabet']][] = $value;
                                 }
-                                // var_dump($group);
                             }
                         ?>
 
@@ -66,17 +65,19 @@
                                             ?>
 
                                         <div class="p-people__accordion">
-                                            <div class="p-people__title js-accordion">
+                                            <div class="p-people__title js-accordion" data-accordion>
                                                 <p class="p-people__name en"><?= $en ?></p>
                                                 <p class="p-people__name jp"><?= $jp ?></p>
                                                 <p class="p-people__category"><?= $category ?></p>
                                             </div>
 
-                                            <div class="p-people__panel">
+                                            <div class="p-people__panel" data-panel>
                                                 <div class="p-people__content">
+                                                    <?php  if (!empty($images)) : ?>
                                                     <figure class="p-people__images">
-                                                        <img src="<?= $images["url"] ?>" alt="<?= $en ?>">
+                                                        <img src="<?= $images["url"] ?>" alt="<?= $en ?>" draggable="false" loading="lazy">
                                                     </figure>
+                                                    <?php endif; ?>
 
                                                     <div class="p-people__text">
                                                         <?= $text?>

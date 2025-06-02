@@ -82,69 +82,6 @@
         ));
     }
     
-    function pagination_tdc($post_type, $wp_query, $paged, $cat = "", $filter = "") {
-        if( $wp_query->max_num_pages <= 1 ) return;
-
-        $paged = $paged;
-        $max = intval( $wp_query->max_num_pages );
-       
-        if ( $paged >= 1 ) $links[] = $paged;
-
-        if ( $paged >= 3 ) {
-               $links[] = $paged - 1;
-               $links[] = $paged - 2;
-        }
-       
-        if ( ( $paged + 2 ) <= $max ) {
-               $links[] = $paged + 2;
-               $links[] = $paged + 1;
-        }
-
-        $html = '';
-        $html .= '<div class="c-pagination" data-cat="'.$cat.'" role="navigation">' . "\n";
-        
-        if ( ! in_array( 1, $links ) ) {
-            $class = 1 == $paged ? ' class="item current"' : '';
-            if(!$class) {
-                $html .= '<a class="item" href="'.build_url($post_type, $cat, 1, $filter).'" >1</a>';
-            } else {
-                $html .= '<a '.$class.'>1</a>';
-            }
-            if ( ! in_array( 2, $links ) )
-                $html .= '<a>…</a>';
-        }
-        sort( $links );
-
-        foreach ( (array) $links as $link ) {
-            $class = $paged == $link ? ' class="item current"' : '';
-            if(!$class) {
-                $html .= '<a class="item" href="'.build_url($post_type, $cat, $link, $filter).'">'.$link .'</a>' . "\n";
-            } else {
-                $html .= '<a '.$class.'>'. $link .'</a>';
-            }
-        }
-
-        if (!in_array( $max, $links ) ) {
-            if ( ! in_array( $max - 1, $links ) ) $html .= '<a class="item">…</a>' . "\n";
-            // $class = $paged == $max ? ' class="item"' : '';
-            $html .= '<a class="item" href="'.build_url($post_type, $cat, $max, $filter).'">'.$max.'</a>';
-        }
-
-        $html .= '</div>' . "\n";
-        return $html;
-    }
-    
-    function build_url($post_type, $cat, $paged, $filter){
-        if ($cat) {
-            $url = home_url('/'.$post_type.'/page/'.$paged).'/?cate='.$cat;
-        } elseif ($filter) {
-            $url = home_url('/'.$post_type.'/page/'.$paged).'/?'.$filter;
-        } else {
-            $url = home_url('/'.$post_type.'/page/'.$paged);
-        }
-        return $url;
-    }
-
     function add_page_to_admin_menu() {
         add_menu_page( 'People', 'People', 'manage_categories', 'post.php?post=106&action=edit', '','dashicons-admin-post', 4);
         add_menu_page( 'About', 'About', 'manage_categories', 'post.php?post=104&action=edit', '','dashicons-admin-post', 4);
@@ -153,7 +90,6 @@
     add_action( 'admin_menu', 'add_page_to_admin_menu' );
 
     add_action('init', 'initTheme');
-    // add_theme_support( 'post-thumbnails' );
     add_theme_support('post-thumbnails', array('post', 'project'));
     add_action( 'admin_menu', 'remove_menus' );
 	add_action( 'admin_bar_menu', 'remove_admin_bar_menus', 999 );
@@ -165,11 +101,7 @@
         remove_post_type_support('page', 'editor');
     }, 99);
 
-    // add_action('init', function() {
-    //     if($_GET['post'] == '106' && $_GET['action'] == 'edit' || $_GET['post'] == '104' && $_GET['action'] == 'edit')
-    //         remove_post_type_support('page', 'editor');
-    // }, 99);
-
+    // ===== bogo =====
     // Hide flags in Bogo's language switcher
     function bogo_use_flags_false(){
         return false;

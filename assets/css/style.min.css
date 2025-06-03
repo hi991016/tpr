@@ -1347,7 +1347,7 @@ button.swiper-pagination-bullet {
 
 .c-footer__subscribe {
   cursor: pointer;
-  transition: 0.3s ease-in-out;
+  transition: 0.2s linear;
 }
 
 .c-footer__subscribe:hover {
@@ -1356,7 +1356,7 @@ button.swiper-pagination-bullet {
 
 .c-footer__subscribe span {
   display: inline-block;
-  transition: all 0.1s linear;
+  transition: all 0.2s linear;
 }
 
 .c-footer__subscribe:hover span {
@@ -1526,7 +1526,7 @@ button.swiper-pagination-bullet {
 @media only screen and (min-width: 1024px) {
   .p-top__content:hover,
   .p-top__grid a:hover {
-    opacity: 0.5;
+    opacity: 0.8;
   }
 }
 
@@ -2293,7 +2293,7 @@ button.swiper-pagination-bullet {
 .p-detail__items {
   cursor: pointer;
   overflow: hidden;
-  transition: all 0.3s ease-in-out;
+  transition: opacity 0.2s linear;
 }
 
 .p-detail__items:hover {
@@ -2419,11 +2419,11 @@ button.swiper-pagination-bullet {
 }
 
 .p-detail__art_items {
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.2s linear;
 }
 
 .p-detail__art_items:hover {
-  opacity: 0.5;
+  opacity: 0.8;
 }
 
 .p-detail__art_items figure {
@@ -2461,6 +2461,80 @@ button.swiper-pagination-bullet {
   .p-detail__art_items p {
     margin-top: 5px;
     font-size: 1.4rem;
+  }
+}
+
+/* ------------------------------ artwork page ------------------------------ */
+
+.p-artwork__wrapper {
+  margin-top: 340px;
+  margin-bottom: 80px;
+}
+
+.p-artwork__heading h1 {
+  font-size: 2.4rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.p-artwork__list {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 45px 20px;
+}
+
+.p-artwork__items {
+  transition: opacity 0.2s linear;
+}
+
+.p-artwork__items:hover {
+  opacity: 0.8;
+}
+
+.p-artwork__items figure {
+  display: block;
+  position: relative;
+  z-index: 1;
+  height: auto;
+  padding-bottom: calc(298 / 447 * 100%);
+  background-color: #ccc;
+  overflow: hidden;
+}
+
+.p-artwork__items figure img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.p-artwork__inner {
+  margin-top: 13px;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+@media only screen and (max-width: 1023px) {
+  .p-artwork__wrapper {
+    margin-top: 200px;
+    margin-bottom: 45px;
+  }
+
+  .p-artwork__heading h1 {
+    font-size: 1.7rem;
+  }
+
+  .p-artwork__list {
+    margin-top: 35px;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 30px;
+  }
+
+  .p-artwork__inner {
+    font-size: 1.5rem;
   }
 }
 
@@ -2701,7 +2775,7 @@ button.swiper-pagination-bullet {
 }
 @media only screen and (min-width: 1024px) {
   .p-people__title:hover {
-    opacity: 0.5;
+    opacity: 0.8;
   }
 }
 .p-people__panel {

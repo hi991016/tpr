@@ -183,14 +183,15 @@
                             <?php 
                                 foreach ($artworks as $artwork_id) :
                                     $artwork = get_post($artwork_id);
+                                    $the_title = $artwork->post_title;
                                     $artwork_name = get_field('name', $artwork_id);
                                     $thumbnail = wp_get_attachment_url(get_post_thumbnail_id($artwork_id), 'thumbnail');
                             ?>
                             <a href="<?= get_permalink($artwork->ID); ?>" class="p-detail__art_items">
                                 <figure>
-                                    <img src="<?= $thumbnail; ?>" alt="<?= $artwork_name; ?>" loading="lazy">
+                                    <img src="<?= $thumbnail; ?>" alt="<?= $the_title; ?>" loading="lazy">
                                 </figure>
-                                <p><?= $artwork_name; ?></p>
+                                <p><?= !empty($artwork_name) ? $artwork_name :  $the_title; ?></p>
                             </a>
                             <?php endforeach; ?>  
                         </div>

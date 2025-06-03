@@ -2007,6 +2007,7 @@ button.swiper-pagination-bullet {
   font-size: 1.8rem;
   font-weight: 500;
   line-height: 1.84;
+  width: fit-content;
 }
 
 .p-detail__pager span {
@@ -2651,6 +2652,135 @@ button.swiper-pagination-bullet {
 
   .artworkpage .details__bottom_l,
   .artworkpage .details__bottom_r {
+    gap: 13px;
+    font-size: 1.3rem;
+  }
+}
+
+.artworkpage .popup {
+  position: fixed;
+  bottom: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  transform: translateY(100%);
+  transition: transform 0.5s ease-in-out;
+}
+
+.artworkpage .popup.active {
+  transform: translateY(0);
+}
+
+.artworkpage .popup__container {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.artworkpage .popup__wrapper {
+  margin-top: 240px;
+  margin-bottom: 80px;
+  flex: 1;
+}
+
+.artworkpage .popup__inner {
+  width: 100%;
+  max-width: 1190px;
+}
+
+.artworkpage .popup__heading {
+  font-size: 2.4rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.artworkpage .popup__details {
+  margin-top: 80px;
+  font-size: 1.8rem;
+  line-height: 1.6;
+}
+
+.artworkpage .popup__list {
+  margin-top: 100px;
+}
+
+.artworkpage .popup__items {
+  display: grid;
+  grid-template-columns: 200px auto;
+  gap: 60px;
+  margin-bottom: 65px;
+  width: 100%;
+}
+
+.artworkpage .popup__items h2 {
+  font-size: 1.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.artworkpage .popup__content {
+  margin-top: -2px;
+  font-size: 1.8rem;
+  line-height: 1.6;
+}
+
+.artworkpage .popup__top {
+  position: absolute;
+  top: 23px;
+  left: 30px;
+  display: flex;
+  gap: 30px;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+}
+
+.artworkpage .popup__top p {
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+@media only screen and (max-width: 1023px) {
+  .artworkpage .popup__wrapper {
+    margin-top: 145px;
+    margin-bottom: 45px;
+  }
+
+  .artworkpage .popup__heading {
+    font-size: 1.7rem;
+  }
+
+  .artworkpage .popup__details {
+    margin-top: 45px;
+    font-size: 1.3rem;
+  }
+
+  .artworkpage .popup__list {
+    margin-top: 80px;
+  }
+
+  .artworkpage .popup__items {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 15px;
+    margin-right: 0;
+    margin-bottom: 50px;
+  }
+
+  .artworkpage .popup__items h2 {
+    font-size: 1.4rem;
+  }
+
+  .artworkpage .popup__content {
+    margin-top: 0;
+    font-size: 1.3rem;
+  }
+
+  .artworkpage .popup__top {
+    top: 20px;
+    left: 15px;
     gap: 13px;
     font-size: 1.3rem;
   }

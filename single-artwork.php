@@ -42,7 +42,12 @@
         <?php 
             $artwork_name = get_field('name'); 
             $artwork_title = get_field('title'); 
-            $artwork_gallery = get_field('gallery'); 
+            $artwork_gallery = get_field('gallery');
+
+            $artwork_info = get_field('info');
+            $artwork_detail= $artwork_info['detail'];
+            $artwork_profile= $artwork_info['profile'];
+            $artwork_url= $artwork_info['url'];
         ?>
         <section class="details">
             <div class="details__container">
@@ -85,7 +90,7 @@
                 </div>
                 <div class="details__bottom">
                     <div class="details__bottom_l">
-                        <p data-artwork-info>info</p>
+                        <p data-artwork-toggler>info</p>
                         <p onclick="window.history.back()" data-back>back</p>
                     </div>
                     <div class="details__bottom_r">
@@ -96,6 +101,66 @@
                             <span class="total" data-artwork-total>7</span>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="popup" data-artwork-popup>
+                <div class="popup__container">
+                    <div class="popup__wrapper l-wrapper">
+                        <div class="popup__top">
+                            <p data-artwork-toggler>close</p>
+                            <p onclick="window.history.back()" data-back>back</p>
+                        </div>
+                        <div class="popup__inner">
+                            <div class="popup__heading">
+                                <p><?= !empty($artwork_name) ? $artwork_name : esc_attr(get_the_title()); ?></p>
+                                <p><?= $artwork_title; ?></p>
+                            </div>
+                            <div class="popup__details"><?= $artwork_detail; ?></div>
+                            <div class="popup__list">
+                                <div class="popup__items">
+                                    <div class="popup__title"><h2>profile</h2></div>
+                                    <div class="popup__content"><?= $artwork_profile; ?></div>
+                                </div>
+                                <div class="popup__items">
+                                    <div class="popup__title"><h2>url</h2></div>
+                                    <div class="popup__content">
+                                        <a href="<?= $artwork_url; ?>" target="_blank" rel="noopener noreferrer"><?= $artwork_url; ?></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- // -->
+                            <div class="p-detail__pager">
+                                <?php 
+                                    $next_post = null;
+                                    if ($index > 0) {
+                                        $next_post = $arr_posts[$index - 1];
+                                    }
+                                ?>
+                                <?php if (!empty($next_post)) : ?>
+                                <a href="<?= get_permalink($next_post->ID); ?>" class="pager-next">
+                                    NEXT
+                                    <span><?= $next_post->post_title ?></span>
+                                </a>
+                                <?php endif; ?>
+                                <!-- // -->
+                                <?php 
+                                    $prev_post = null;
+                                    if ($index < count($arr_posts) - 1) {
+                                        $prev_post = $arr_posts[$index + 1];
+                                    }
+                                ?>
+                                <?php if (!empty($prev_post)) : ?>
+                                <a href="<?= get_permalink($prev_post->ID); ?>" class="pager-prev">
+                                    PREV
+                                    <span><?= $prev_post->post_title ?></span>
+                                </a>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- // -->
+                    <?php require __DIR__ . '/components/footer.php' ?>
                 </div>
             </div>
         </section>

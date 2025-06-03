@@ -371,11 +371,13 @@ const toggleText = function () {
 textToggler?.addEventListener("click", toggleText);
 
 // ====== artwork =====
-const [imgArk, captionArk, totalArk, currentArk] = [
+const [imgArk, captionArk, totalArk, currentArk, toggleArk, popupArk] = [
   document.querySelectorAll("[data-artwork-img]"),
   document.querySelector("[data-artwork-caption]"),
   document.querySelector("[data-artwork-total]"),
   document.querySelector("[data-artwork-current"),
+  document.querySelectorAll("[data-artwork-toggler"),
+  document.querySelector("[data-artwork-popup"),
 ];
 let swiperArk;
 
@@ -420,6 +422,12 @@ const swiperArtwork = function () {
   });
 };
 swiperArtwork();
+
+toggleArk?.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    popupArk.classList.toggle("active");
+  });
+});
 
 // show popup info artwork
 

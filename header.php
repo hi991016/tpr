@@ -41,11 +41,12 @@
     <script type="text/javascript" src="https://webfonts.sakura.ne.jp/js/sakurav3.js"></script>
     <link rel="stylesheet" href="https://use.typekit.net/fuh8jjo.css">
     
-    <?php if (is_home() || is_front_page()) : ?>
-    <title>TOKYO PHOTOGRAPHIC RESEARCH</title>
-    <?php else : ?>
-    <title><?php wp_title(''); ?> ｜ TOKYO PHOTOGRAPHIC RESEARCH</title>
-    <?php endif;  ?>
+    <title>
+        <?php 
+            wp_title('｜', true, 'right'); 
+            echo 'TOKYO PHOTOGRAPHIC RESEARCH'; 
+        ?>
+    </title>
 
     <?php wp_head(); ?>
 </head>

@@ -2412,6 +2412,58 @@ button.swiper-pagination-bullet {
   }
 }
 
+.p-detail__art_list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px 20px;
+}
+
+.p-detail__art_items {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.p-detail__art_items:hover {
+  opacity: 0.5;
+}
+
+.p-detail__art_items figure {
+  display: block;
+  position: relative;
+  z-index: 1;
+  height: auto;
+  padding-bottom: calc(220 / 330 * 100%);
+  background-color: #ccc;
+  overflow: hidden;
+}
+
+.p-detail__art_items figure img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.p-detail__art_items p {
+  margin-top: 10px;
+  font-size: 1.8rem;
+  line-height: 1.65;
+  text-transform: uppercase;
+}
+
+@media only screen and (max-width: 1023px) {
+  .p-detail__art_list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 12px;
+  }
+
+  .p-detail__art_items p {
+    margin-top: 5px;
+    font-size: 1.4rem;
+  }
+}
+
 /* ------------------------------- about page ------------------------------- */
 
 .p-about__wrapper {

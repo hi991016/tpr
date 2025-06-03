@@ -2,8 +2,6 @@
 
 // ===== init =====
 const init = () => {
-  // # load fonts
-  loadFonts();
   // # app height
   appHeight();
   // # header logo
@@ -37,9 +35,19 @@ const loadFonts = () => {
         el.classList.remove("typesquare_option");
         document.body.classList.remove("fadeout");
       });
-    }, 2000);
+    }, 1000);
   }
 };
+
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted) {
+    document.querySelectorAll(".typesquare_option").forEach((el) => {
+      el.classList.remove("typesquare_option");
+    });
+    document.body.classList.remove("fadeout");
+  }
+  loadFonts();
+});
 
 // ===== lazy load =====
 const initLazyLoad = function () {
@@ -382,7 +390,7 @@ const toggleText = function () {
     closeText.textContent = "info";
   }
 };
-textToggler.addEventListener("click", toggleText);
+textToggler?.addEventListener("click", toggleText);
 
 // ### ===== DOM ===== ###
 window.addEventListener("DOMContentLoaded", init);

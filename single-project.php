@@ -43,8 +43,9 @@
         <?php 
             $number = get_field('number'); 
             $category = get_the_terms(get_the_ID(), 'project_categories' ); 
-            $images = get_field('images'); 
             $gallery = get_field('gallery'); 
+            $images = get_field('images');
+            $artworks = get_field('selected_artworks');
             $years = get_field('years');
             $year = $years['year'];
         ?>
@@ -173,6 +174,29 @@
                             </div>
                         </div>
                     </div>
+                    <!-- // -->
+                    <?php if (!empty($artworks)) : ?>
+
+                    <div class="p-detail__art p-detail__images">
+                        <h2>ARTWORK</h2>
+                        <div class="p-detail__art_list">
+                            <?php 
+                                foreach ($artworks as $artwork_id) :
+                                    $artwork = get_post($artwork_id);
+                                    $artwork_name = get_field('name', $artwork_id);
+                                    $thumbnail = wp_get_attachment_url(get_post_thumbnail_id($artwork_id), 'thumbnail');
+                            ?>
+                            <a href="<?= get_permalink($artwork->ID); ?>" class="p-detail__art_items">
+                                <figure>
+                                    <img src="<?= $thumbnail; ?>" alt="<?= $artwork_name; ?>" loading="lazy">
+                                </figure>
+                                <p><?= $artwork_name; ?></p>
+                            </a>
+                            <?php endforeach; ?>  
+                        </div>
+                    </div>
+
+                    <?php endif; ?>  
                     <!-- // -->
                     <?php if (!empty($images)) : ?>
 

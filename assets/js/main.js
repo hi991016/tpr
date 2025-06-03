@@ -279,158 +279,110 @@ const initCustomCursor = () => {
   });
 };
 
-// ### ===== DOM ===== ###
-window.addEventListener("DOMContentLoaded", init);
+// ===== lightbox =====
+const [
+  lightBox,
+  imgLb,
+  closeLb,
+  captionLb,
+  titleLb,
+  descLb,
+  totalLb,
+  currentLb,
+] = [
+  document.querySelector("[data-lightbox]"),
+  document.querySelectorAll("[data-lightbox-img]"),
+  document.querySelector("[data-lightbox-close]"),
+  document.querySelector("[data-lightbox-caption"),
+  document.querySelector("[data-text-title]"),
+  document.querySelector("[data-text-desc]"),
+  document.querySelector("[data-lightbox-total]"),
+  document.querySelector("[data-lightbox-current"),
+];
+const [textToggler, text, closeText] = [
+  document.querySelector("[data-text-toggler]"),
+  document.querySelector("[data-text]"),
+  document.querySelector("[data-text-close]"),
+];
 
-/* -------------------------------- lightbox -------------------------------- */
-
-const lightBox = document.querySelector(".p-detail__lightbox");
-const imgLightbox = document.querySelectorAll(".p-detail__items img");
-const iconClose = document.querySelector(".lightbox-icon");
-const totalLightBox = document.querySelector(".lightbox-counter .total");
-const swiperLightBox = document.getElementById("swiper-lightbox");
-let currentLightBox = document.querySelector(".lightbox-counter .current");
 let index = 0;
 let swiperLb;
 
-function swiperImages() {
-  swiperLb = new Swiper(".lightbox-swiper", {
+const fade = (el, show) => {
+  el.style.display = show ? "block" : "none";
+};
+
+const swiperImages = function () {
+  swiperLb = new Swiper("[data-lightbox-swiper]", {
     navigation: {
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",
     },
+    init: false,
     speed: 600,
     centeredSlides: true,
     slidesPerView: 1,
     loop: true,
-    // initialSlide: index,
     on: {
-      slideChange: function () {
-        let currentSlide = this.realIndex + 1;
-        document.querySelector(".lightbox-counter .current").innerHTML =
-          currentSlide;
-      },
       beforeInit: function () {
-        totalLightBox.innerHTML = imgLightbox.length;
-
-        let swiper = this;
-        setTimeout(function () {
-          let currentCaption = $(swiper.slides[swiper.activeIndex]).attr(
-            "data-caption"
-          );
-          let currentTitle = $(swiper.slides[swiper.activeIndex]).attr(
-            "data-title"
-          );
-          let currentContent = $(swiper.slides[swiper.activeIndex]).attr(
-            "data-content"
-          );
-
-          if (currentTitle == "" && currentContent == "") {
-            $(".lightbox-info").fadeOut();
-          } else {
-            $(".lightbox-info").fadeIn();
-          }
-
-          $(".lightbox-caption").html(function () {
-            return "<h3>" + currentCaption + "</h3>";
-          });
-          $(".text-content h3").html(function () {
-            return currentTitle;
-          });
-          $(".text-content .text-desc").html(function () {
-            return currentContent;
-          });
-        }, 500);
+        totalLb.innerHTML = imgLb.length;
+        handleContentSwiper();
       },
-      slideChangeTransitionStart: function () {
-        // Slide captions
-        let swiper = this;
-        setTimeout(function () {
-          let currentCaption = $(swiper.slides[swiper.activeIndex]).attr(
-            "data-caption"
-          );
-          let currentTitle = $(swiper.slides[swiper.activeIndex]).attr(
-            "data-title"
-          );
-          let currentContent = $(swiper.slides[swiper.activeIndex]).attr(
-            "data-content"
-          );
-        }, 500);
-      },
-      slideChangeTransitionEnd: function () {
-        // Slide captions
-        let swiper = this;
-        let currentCaption = $(swiper.slides[swiper.activeIndex]).attr(
-          "data-caption"
-        );
-        let currentTitle = $(swiper.slides[swiper.activeIndex]).attr(
-          "data-title"
-        );
-        let currentContent = $(swiper.slides[swiper.activeIndex]).attr(
-          "data-content"
-        );
-
-        if (currentTitle == "" && currentContent == "") {
-          $(".lightbox-info").fadeOut();
-        } else {
-          $(".lightbox-info").fadeIn();
-        }
-
-        $(".lightbox-caption").html(function () {
-          return "<h3>" + currentCaption + "</h3>";
-        });
-        $(".text-content h3").html(function () {
-          return currentTitle;
-        });
-        $(".text-content .text-desc").html(function () {
-          return currentContent;
-        });
+      slideChange: function () {
+        currentLb.innerHTML = this.realIndex + 1;
+        handleContentSwiper();
       },
     },
   });
-}
-
+};
 swiperImages();
-imgLightbox.forEach((item) => item.addEventListener("click", handleZoomImage));
 
-function handleZoomImage(event) {
-  document.body.classList.add("active");
+// init content
+const handleContentSwiper = function () {
+  setTimeout(() => {
+    const EL_currentSlide = swiperLb.slides[swiperLb.activeIndex],
+      currentCaption = EL_currentSlide.dataset.caption || "",
+      currentTitle = EL_currentSlide.dataset.title || "",
+      currentContent = EL_currentSlide.dataset.content || "";
 
-  let image = event.target.getAttribute("key-items");
-  index = [...imgLightbox].findIndex(
-    (item) => item.getAttribute("key-items") === image
-  );
-
-  // console.log('index', index);
-  swiperLb.slideTo(index + 1, 0);
-
-  lightBox.classList.add("active");
-}
-
-// close lightbox
-if (iconClose) {
-  iconClose.addEventListener("click", function () {
-    lightBox.classList.remove("active");
-    document.body.classList.remove("active");
-  });
-}
-
-const [textTogglers, text, close, hide] = [
-  document.querySelectorAll("[data-text-toggler]"),
-  document.querySelector("[data-text]"),
-  document.querySelector("[data-text-close]"),
-  document.querySelector("[hide]"),
-];
-
-const toggleText = function () {
-  text.classList.toggle("active");
-  hide.classList.toggle("hide");
-
-  if (close.innerHTML == "info") {
-    close.innerHTML = "close";
-  } else {
-    close.innerHTML = "info";
-  }
+    fade(textToggler, currentTitle || currentContent);
+    captionLb.innerHTML = `<h3>${currentCaption}</h3>`;
+    titleLb.innerHTML = currentTitle;
+    descLb.innerHTML = currentContent;
+  }, 100);
 };
 
-// addEventOnElements(textTogglers, "click", toggleText);
+// show lightbox
+const handleZoomImage = function (event) {
+  swiperLb.init();
+  document.body.classList.add("active");
+  let image = event.target.getAttribute("key-items");
+  index = [...imgLb].findIndex(
+    (item) => item.getAttribute("key-items") === image
+  );
+  swiperLb.slideToLoop(index, 0);
+  lightBox.classList.add("active");
+};
+imgLb.forEach((item) => item.addEventListener("click", handleZoomImage));
+
+// close lightbox
+closeLb?.addEventListener("click", function () {
+  lightBox.classList.remove("active");
+  document.body.classList.remove("active");
+});
+
+// Text toggler
+const toggleText = function () {
+  text.classList.toggle("active");
+  closeLb.classList.toggle("hide");
+
+  if (closeText.textContent === "info") {
+    closeText.textContent = "close";
+  } else {
+    closeText.textContent = "info";
+  }
+};
+textToggler.addEventListener("click", toggleText);
+
+// ### ===== DOM ===== ###
+window.addEventListener("DOMContentLoaded", init);

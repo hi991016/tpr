@@ -40,21 +40,19 @@
     
     <!-- @main -->
     <main>
-
         <?php 
             $number = get_field('number'); 
             $category = get_the_terms(get_the_ID(), 'project_categories' ); 
+            $images = get_field('images'); 
             $gallery = get_field('gallery'); 
             $years = get_field('years');
             $year = $years['year'];
         ?>
-
         <!-- @section detail -->
         <section class="p-detail">
             <div class="p-detail__container">
                 <div class="p-detail__wrapper l-wrapper">
                     <!-- // -->
-
                     <div class="p-detail__heading">
                         <p class="p-detail__num"><?= $number; ?></p>
 
@@ -66,9 +64,7 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- // -->
-
                     <div class="p-detail__swiper">
                         <div class="detail-swiper swiperDetail" data-projects-swiper>
                             <div class="swiper-wrapper">
@@ -80,7 +76,6 @@
                                     <figure>
                                         <img src="<?= $value["url"] ?>" alt="<?= $value["alt"] ?>" loading="lazy">
                                     </figure>
-                                    <div class="swiper-lazy-preloader"></div>
                                 </div>
                                 <?php 
                                         endforeach;
@@ -98,11 +93,8 @@
                             <button class="button-swiper swiper-button-prev"></button>
                         </div>
                     </div>
-
                     <!-- // -->
-
                     <div class="p-detail__tabs">
-
                         <?php 
                             $overview = get_field('overview');
                             $post_content_overview = $overview["post_content"];
@@ -115,7 +107,6 @@
                                 $table_content_info = $info["table_content"];
                             }
                         ?>
-
                         <div class="tabs-wrapper">
                             <ul class="tabs">
                                 <li class="tab-link active" data-tabs-items>overview</li>
@@ -126,7 +117,6 @@
                                 <?php endif; ?>
                             </ul>
                         </div>
-
                         <div class="content-wrapper">
                             <div class="tab-content active" data-tabs-content>
                                 <div class="tab-content--top">
@@ -183,52 +173,36 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- // -->
-                    
-                    <?php 
-                        $images = get_field('images'); 
-                        if (!empty($images)) :
-                    ?>
+                    <?php if (!empty($images)) : ?>
 
                     <div class="p-detail__images">
-                        <h2>images</h2>
-
+                        <h2>installation view</h2>
                         <div class="p-detail__masonary">
                             <div class="p-detail__list">
-
                                 <?php 
-                                    foreach ($images as $key => $value) :
-                                ?>
-
-                                    <?php 
+                                    foreach ($images as $key => $value) : 
                                         $thumbnail = $value["thumbnail"];
                                         $caption = $value["caption"];
-                                    ?>
-
+                                ?>
                                 <div class="p-detail__items">
                                     <figure>                                    
-                                        <img src="<?= $thumbnail["url"] ?>" key-items="<?= $key ?>" alt="<?= $caption ?>" loading="lazy">
+                                        <img src="<?= $thumbnail["url"] ?>" key-items="<?= $key ?>" alt="<?= $caption ?>" loading="lazy" data-lightbox-img>
                                     </figure>
                                 </div>
-
-                                <?php 
-                                    endforeach;
-                                ?>  
-                            
+                                <?php endforeach; ?>  
                             </div>
                         </div>
                     </div>
 
-                    <div class="p-detail__lightbox">
+                    <div class="p-detail__lightbox" data-lightbox>
                         <div class="p-detail__top">
                             <div class="lightbox-head">
                                 <h2><?php the_title(); ?></h2>
                                 <p><?= $category[0]->name ?></p>
                                 <p><?= $year; ?></p>
                             </div>
-
-                            <div class="lightbox-icon" hide>
+                            <div class="lightbox-icon" data-lightbox-close>
                                 <svg xmlns="http://www.w3.org/2000/svg" aria-label="close" width="16.414"
                                     height="16.414" viewBox="0 0 16.414 16.414">
                                     <g id="close" transform="translate(-1384.293 -37.293)">
@@ -242,20 +216,16 @@
                         </div>
 
                         <div class="p-detail__mid">
-                            <div class="lightbox-swiper">
+                            <div class="lightbox-swiper" data-lightbox-swiper>
                                 <div class="swiper-wrapper">
                                     <?php 
-                                        foreach ($images as $key => $value) :
-                                    ?>
-
-                                        <?php 
+                                        foreach ($images as $key => $value) : 
                                             $thumbnail = $value["thumbnail"];
                                             $caption = $value["caption"];
                                             $info = $value["info_images"];
                                             $title = $info["title_info"];
                                             $text = $info["text_info"];
-                                        ?>
-
+                                    ?>
                                     <div 
                                         class="swiper-slide" 
                                         key-items="<?= $key ?>" 
@@ -267,12 +237,8 @@
                                             <img src="<?= $thumbnail["url"] ?>" alt="<?= $caption ?>" loading="lazy">
                                         </figure>
                                     </div>
-
-                                    <?php 
-                                        endforeach;
-                                    ?>  
+                                    <?php endforeach; ?>  
                                 </div>
-
                                 <div class="p-detail__control">
                                     <button class="button-swiper swiper-button-next"></button>
                                     <button class="button-swiper swiper-button-prev"></button>
@@ -281,64 +247,58 @@
                         </div>
 
                         <div class="p-detail__bottom">
-                            <div class="lightbox-caption"></div>
+                            <div class="lightbox-caption" data-lightbox-caption></div>
                             <div class="lightbox-right">
                                 <div class="lightbox-info" data-text-toggler>
                                     <p data-text-close>info</p>
                                 </div>
 
                                 <div class="lightbox-counter">
-                                    <span class="current">1</span>
+                                    <span class="current" data-lightbox-current>1</span>
                                     <span>/</span>
-                                    <span class="total">18</span>
+                                    <span class="total" data-lightbox-total>18</span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="p-detail__text" data-text>
                             <div class="text-content">
-                                <h3 class="text-title"></h3>
-                                <div class="text-desc"></div>
+                                <h3 class="text-title" data-text-title></h3>
+                                <div class="text-desc" data-text-desc></div>
                             </div>
                         </div>
                     </div>
 
-                    <?php 
-                        endif;
-                    ?>  
-
+                    <?php endif; ?>  
                     <!-- // -->
-
                     <div class="p-detail__pager">
                         <?php 
-                            $next_post = $arr_posts[$index - 1];
-                            if(!empty($next_post)) :
+                            $next_post = null;
+                            if ($index > 0) {
+                                $next_post = $arr_posts[$index - 1];
+                            }
                         ?>
-
+                        <?php if (!empty($next_post)) : ?>
                         <a href="<?= get_permalink($next_post->ID); ?>" class="pager-next">
                             NEXT
                             <span><?= $next_post->post_title ?></span>
                         </a>
-                        
-                        <?php 
-                            endif;
-                        ?>
+                        <?php endif; ?>
 
                         <!-- // -->
 
                         <?php 
-                            $prev_post = $arr_posts[$index + 1];
-                            if(!empty($prev_post)) :
+                            $prev_post = null;
+                            if ($index < count($arr_posts) - 1) {
+                                $prev_post = $arr_posts[$index + 1];
+                            }
                         ?>
-
+                        <?php if (!empty($prev_post)) : ?>
                         <a href="<?= get_permalink($prev_post->ID); ?>" class="pager-prev">
                             PREV
                             <span><?= $prev_post->post_title ?></span>
                         </a>
-                        
-                        <?php 
-                            endif;
-                        ?>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

@@ -2053,23 +2053,16 @@ button.swiper-pagination-bullet {
 
 .p-detail__lightbox {
   position: fixed;
-  top: -1px;
+  top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   z-index: 9997;
   background-color: #fff;
-  transition: all 0.25s linear;
-
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-}
-
-.p-detail__text {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
+  transition: all 0.15s ease-in-out;
 }
 
 .p-detail__lightbox.active,
@@ -2117,6 +2110,7 @@ button.swiper-pagination-bullet {
 
 .lightbox-icon.hide {
   opacity: 0;
+  pointer-events: none;
 }
 
 .p-detail__mid {
@@ -2151,7 +2145,7 @@ button.swiper-pagination-bullet {
 
 .p-detail__control {
   position: absolute;
-  top: 100px;
+  top: 120px;
   left: 0;
   width: 100%;
   height: calc(100% - 240px);
@@ -2166,6 +2160,7 @@ button.swiper-pagination-bullet {
   background-color: rgba(0, 0, 0, 0);
   z-index: 1;
   cursor: none;
+  margin: 0;
 }
 
 .p-detail__control .button-swiper::after {
@@ -2174,13 +2169,13 @@ button.swiper-pagination-bullet {
 
 .p-detail__control .swiper-button-next {
   position: absolute;
-  top: 40px;
+  top: 0;
   right: 0;
 }
 
 .p-detail__control .swiper-button-prev {
   position: absolute;
-  top: 40px;
+  top: 0;
   left: 0;
 }
 
@@ -2252,8 +2247,11 @@ button.swiper-pagination-bullet {
   background-color: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(15px) brightness(110%);
   -webkit-backdrop-filter: blur(15px) brightness(110%);
-  transition: all 0.15s ease-in-out;
   overflow: auto;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: all 0.15s ease-in-out;
 }
 
 .text-content {
@@ -2296,7 +2294,6 @@ button.swiper-pagination-bullet {
   cursor: pointer;
   overflow: hidden;
   transition: all 0.3s ease-in-out;
-  aspect-ratio: 4/2.677;
 }
 
 .p-detail__items:hover {
@@ -2305,11 +2302,18 @@ button.swiper-pagination-bullet {
 
 .p-detail__items figure {
   width: 100%;
-  height: 100%;
+  display: block;
+  position: relative;
+  z-index: 1;
+  height: auto;
+  padding-bottom: calc(174 / 260 * 100%);
   background-color: #ccc;
 }
 
 .p-detail__items img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;

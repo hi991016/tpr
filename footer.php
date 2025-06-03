@@ -1,3 +1,4 @@
+    <?php if (!is_singular('artwork')) : ?>
     <!-- @footer -->
     <footer class="c-footer">
         <div class="c-footer__container">
@@ -31,6 +32,7 @@
         </div>
     </footer>
     <!-- @@footer -->
+    <?php endif; ?>
 
     <!--JB Tracker-->
     <!-- <script
@@ -51,23 +53,6 @@
     <script src="<?= get_template_directory_uri() ?>/assets/js/libs.js"></script>
     <script src="<?= get_template_directory_uri() ?>/assets/js/jb.tracker.js"></script>
     <script src="<?= get_template_directory_uri() ?>/assets/js/main.js"></script>
-
-    <!-- script home -->
-    <?php if( is_home() ) : ?>
-    <script>
-        // $(window).on("load", function () {
-        //     setTimeout(() => {
-        //         $(".c-loading__logo").fadeIn("slow");
-        //     }, 1000);
-        //     setTimeout(() => {
-        //         $(".c-loading__logo").fadeOut("slow");
-        //     }, 2000);
-        //     setTimeout(() => {
-        //         $(".c-loading").fadeOut();
-        //     }, 2900);
-        // });
-    </script>
-    <?php endif; ?>
 
     <?php wp_footer(); ?>
 </body>

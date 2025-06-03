@@ -356,7 +356,7 @@ if (hasVerticalCenter_VGQ9D.length > 0) {
 }
 
 var subscribeButton = document.getElementById("subscribeBtn");
-subscribeBtn.addEventListener("click", function () {
+subscribeButton?.addEventListener("click", function () {
   document.body.classList.toggle("active");
   signupFormContainer_VGQ9D.style.display = "block";
   signupFormContainer_VGQ9D.style.opacity = 1;

@@ -169,7 +169,7 @@ const throttle = (func, limit) => {
 const headerLogo = document.querySelector("[data-header-logo]");
 const handleHeaderLogo = function () {
   const scrollPosition = window.scrollY || document.documentElement.scrollTop;
-  if (!headerLogo.classList.contains("js-scale")) {
+  if (!headerLogo?.classList.contains("js-scale")) {
     return;
   }
   headerLogo.classList.toggle("is-scale", scrollPosition > 100);
@@ -256,37 +256,6 @@ const swiperProjects = new Swiper("[data-projects-swiper]", {
   },
 });
 
-// ===== init custom cursor =====
-const initCustomCursor = () => {
-  const cursorPrev = document.querySelector(".cursor-prev");
-  const cursorNext = document.querySelector(".cursor-next");
-  const swiper = document.querySelector("[data-projects-swiper]");
-
-  if (!cursorPrev || !cursorNext || !swiper) return;
-
-  document.addEventListener("mousemove", (e) => {
-    cursorPrev.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-    cursorNext.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-
-    const target = e.target;
-    if (target.closest(".swiper-button-next")) {
-      cursorNext.classList.add("active");
-      cursorPrev.classList.remove("active");
-    } else if (target.closest(".swiper-button-prev")) {
-      cursorPrev.classList.add("active");
-      cursorNext.classList.remove("active");
-    } else {
-      cursorPrev.classList.remove("active");
-      cursorNext.classList.remove("active");
-    }
-  });
-
-  swiper.addEventListener("mouseleave", () => {
-    cursorPrev.classList.remove("active");
-    cursorNext.classList.remove("active");
-  });
-};
-
 // ===== lightbox =====
 const [
   lightBox,
@@ -320,34 +289,9 @@ const fade = (el, show) => {
   el.style.display = show ? "block" : "none";
 };
 
-const swiperImages = function () {
-  swiperLb = new Swiper("[data-lightbox-swiper]", {
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-    init: false,
-    speed: 600,
-    centeredSlides: true,
-    slidesPerView: 1,
-    loop: true,
-    on: {
-      beforeInit: function () {
-        totalLb.innerHTML = imgLb.length;
-        handleContentSwiper();
-      },
-      slideChange: function () {
-        currentLb.innerHTML = this.realIndex + 1;
-        handleContentSwiper();
-      },
-    },
-  });
-};
-swiperImages();
-
 // init content
-const handleContentSwiper = function () {
-  setTimeout(() => {
+const handleLbSwiper = function () {
+  if (swiperLb && swiperLb.activeIndex !== undefined) {
     const EL_currentSlide = swiperLb.slides[swiperLb.activeIndex],
       currentCaption = EL_currentSlide.dataset.caption || "",
       currentTitle = EL_currentSlide.dataset.title || "",
@@ -357,8 +301,42 @@ const handleContentSwiper = function () {
     captionLb.innerHTML = `<h3>${currentCaption}</h3>`;
     titleLb.innerHTML = currentTitle;
     descLb.innerHTML = currentContent;
-  }, 100);
+  }
 };
+
+const swiperLightbox = function () {
+  swiperLb = new Swiper("[data-lightbox-swiper]", {
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    speed: 600,
+    centeredSlides: true,
+    slidesPerView: 1,
+    loop: true,
+    breakpoints: {
+      0: {
+        allowTouchMove: true,
+        draggable: true,
+      },
+      1024: {
+        draggable: false,
+        allowTouchMove: false,
+      },
+    },
+    on: {
+      beforeInit: function () {
+        totalLb.innerHTML = imgLb.length;
+        handleLbSwiper();
+      },
+      slideChange: function () {
+        currentLb.innerHTML = this.realIndex + 1;
+        handleLbSwiper();
+      },
+    },
+  });
+};
+swiperLightbox();
 
 // show lightbox
 const handleZoomImage = function (event) {
@@ -391,6 +369,84 @@ const toggleText = function () {
   }
 };
 textToggler?.addEventListener("click", toggleText);
+
+// ====== artwork =====
+const [imgArk, captionArk, totalArk, currentArk] = [
+  document.querySelectorAll("[data-artwork-img]"),
+  document.querySelector("[data-artwork-caption]"),
+  document.querySelector("[data-artwork-total]"),
+  document.querySelector("[data-artwork-current"),
+];
+let swiperArk;
+
+const handleArkSwiper = function () {
+  if (swiperArk && swiperArk.activeIndex !== undefined) {
+    const EL_currentSlide = swiperArk.slides[swiperArk.activeIndex],
+      currentCaption = EL_currentSlide.dataset.caption || "";
+    captionArk.innerHTML = `<p>${currentCaption}</p>`;
+  }
+};
+
+const swiperArtwork = function () {
+  swiperArk = new Swiper("[data-artwork-swiper]", {
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    speed: 600,
+    centeredSlides: true,
+    slidesPerView: 1,
+    loop: true,
+    breakpoints: {
+      0: {
+        allowTouchMove: true,
+        draggable: true,
+      },
+      1024: {
+        draggable: false,
+        allowTouchMove: false,
+      },
+    },
+    on: {
+      beforeInit: function () {
+        totalArk.innerHTML = imgArk.length;
+        handleArkSwiper();
+      },
+      slideChange: function () {
+        currentArk.innerHTML = this.realIndex + 1;
+        handleArkSwiper();
+      },
+    },
+  });
+};
+swiperArtwork();
+
+// show popup info artwork
+
+// ===== init custom cursor =====
+const initCustomCursor = () => {
+  const cursorPrev = document.querySelector(".cursor-prev");
+  const cursorNext = document.querySelector(".cursor-next");
+
+  if (!cursorPrev || !cursorNext) return;
+
+  document.addEventListener("mousemove", (e) => {
+    cursorPrev.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    cursorNext.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+
+    const target = e.target;
+    if (target.closest(".swiper-button-next")) {
+      cursorNext.classList.add("active");
+      cursorPrev.classList.remove("active");
+    } else if (target.closest(".swiper-button-prev")) {
+      cursorPrev.classList.add("active");
+      cursorNext.classList.remove("active");
+    } else {
+      cursorPrev.classList.remove("active");
+      cursorNext.classList.remove("active");
+    }
+  });
+};
 
 // ### ===== DOM ===== ###
 window.addEventListener("DOMContentLoaded", init);

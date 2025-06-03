@@ -58,7 +58,8 @@
         <div class="c-header__container">
             <div class="c-header__wrapper">
                 <div class="c-header__left">
-                   <a href="<?= home_url(); ?>" aria-label="TOKYO PHOTOGRAPHIC RESEARCH" class="c-header__logo <?= is_home() || is_front_page() ? "js-scale" : "is-scale" ?>" data-header-logo>
+                    <?php if (!is_singular('artwork')) : ?>
+                    <a href="<?= home_url(); ?>" aria-label="TOKYO PHOTOGRAPHIC RESEARCH" class="c-header__logo <?= is_home() || is_front_page() ? "js-scale" : "is-scale" ?>" data-header-logo>
                         <svg id="Group_660" aria-label="TOKYO PHOTOGRAPHIC RESEARCH" data-name="Group 660" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="590" height="191.432" viewBox="0 0 590 191.432">
                             <defs>
                                 <clipPath id="clip-path-logo">
@@ -96,6 +97,7 @@
                             </g>
                         </svg>
                     </a>
+                    <?php endif; ?>
                 </div>
 
                 <div class="c-header__right">

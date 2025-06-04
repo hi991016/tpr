@@ -234,7 +234,7 @@ body {
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: var(--app-height);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -258,6 +258,7 @@ body::after {
 
 body.fadeout::after {
   opacity: 1;
+  pointer-events: auto;
 }
 
 body.active {
@@ -1951,6 +1952,7 @@ button.swiper-pagination-bullet {
 .p-detail__swiper .swiper-slide {
   counter-increment: item;
   width: auto;
+  max-width: fit-content;
   height: 97.077vh;
   min-height: 794px;
 }
@@ -1977,7 +1979,8 @@ button.swiper-pagination-bullet {
   }
 
   .p-detail__swiper .swiper-slide {
-    height: 34.825vh;
+    width: auto;
+    height: 60.15vw;
     min-height: 249px;
   }
 
@@ -1987,10 +1990,10 @@ button.swiper-pagination-bullet {
 }
 
 .p-detail__swiper .swiper-slide img {
-  width: 100%;
+  width: auto;
+  max-width: 100%;
   height: 100%;
-  -o-object-fit: cover;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .p-detail__pager {
@@ -2549,6 +2552,15 @@ button.swiper-pagination-bullet {
   }
 }
 
+.artworkpage .details__container {
+  position: fixed;
+  width: 100%;
+  height: var(--app-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .artworkpage .details__heading {
   position: absolute;
   top: 23px;
@@ -2564,12 +2576,8 @@ button.swiper-pagination-bullet {
 }
 
 .artworkpage .details__center {
-  position: fixed;
-  height: var(--app-height);
+  height: 100%;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .artworkpage .details__swiper {
@@ -2675,7 +2683,7 @@ button.swiper-pagination-bullet {
 .artworkpage .popup__container {
   width: 100%;
   height: 100%;
-  min-height: 100vh;
+  min-height: var(--app-height);
   overflow: auto;
   display: flex;
   flex-direction: column;

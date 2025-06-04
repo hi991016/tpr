@@ -382,11 +382,11 @@ const [imgArk, captionArk, totalArk, currentArk, toggleArk, popupArk] = [
 let swiperArk;
 
 const handleArkSwiper = function () {
-  if (swiperArk && swiperArk.activeIndex !== undefined) {
+  setTimeout(() => {
     const EL_currentSlide = swiperArk.slides[swiperArk.activeIndex],
       currentCaption = EL_currentSlide.dataset.caption || "";
     captionArk.innerHTML = `<p>${currentCaption}</p>`;
-  }
+  }, 0);
 };
 
 const swiperArtwork = function () {

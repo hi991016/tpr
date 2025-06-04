@@ -35,7 +35,7 @@
         register_post_type(
             'project',
             array(
-                'label' => 'Project',
+                'label' => 'PROJECT',
                 'labels' => array(
                     'all_items' => 'プロジェクト一覧',
                     'add_new' => 'プロジェクト新規追加',
@@ -105,8 +105,8 @@
     }
     
     function add_page_to_admin_menu() {
-        add_menu_page( 'People', 'People', 'manage_categories', 'post.php?post=106&action=edit', '','dashicons-admin-post', 6);
-        add_menu_page( 'About', 'About', 'manage_categories', 'post.php?post=104&action=edit', '','dashicons-admin-post', 7);
+        add_menu_page( 'PEOPLE', 'PEOPLE', 'manage_categories', 'post.php?post=106&action=edit', '','dashicons-admin-post', 6);
+        add_menu_page( 'ABOUT', 'ABOUT', 'manage_categories', 'post.php?post=104&action=edit', '','dashicons-admin-post', 7);
         add_menu_page( 'CV', 'CV', 'manage_categories', 'post.php?post=1005&action=edit', '','dashicons-admin-post', 8);
     }
     add_action( 'admin_menu', 'add_page_to_admin_menu' );
@@ -123,6 +123,20 @@
         remove_post_type_support('artwork', 'editor');
         remove_post_type_support('page', 'editor');
     }, 99);
+
+    // =========
+    add_action('wp_head', function() {
+        if (is_user_logged_in()) {
+            echo '<style>
+                html {
+                    margin-top: 0 !important;
+                }
+            </style>';
+        } else {
+            remove_action('wp_head', 'wp_admin_bar_render', 1000);
+            wp_deregister_style('admin-bar');
+        }
+    }, 100);
 
     // ===== bogo =====
     // Hide flags in Bogo's language switcher

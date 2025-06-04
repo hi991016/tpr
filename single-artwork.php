@@ -130,7 +130,7 @@
                                 </div>
                             </div>
                             <!-- // -->
-                            <div class="p-detail__pager">
+                            <div class="p-detail__pager" data-pager>
                                 <?php 
                                     $next_post = null;
                                     if ($index > 0) {
@@ -138,7 +138,7 @@
                                     }
                                 ?>
                                 <?php if (!empty($next_post)) : ?>
-                                <a href="<?= get_permalink($next_post->ID); ?>" class="pager-next">
+                                <a href="<?= get_permalink($next_post->ID); ?>" class="pager-next" data-back>
                                     NEXT
                                     <span><?= $next_post->post_title ?></span>
                                 </a>
@@ -151,7 +151,7 @@
                                     }
                                 ?>
                                 <?php if (!empty($prev_post)) : ?>
-                                <a href="<?= get_permalink($prev_post->ID); ?>" class="pager-prev">
+                                <a href="<?= get_permalink($prev_post->ID); ?>" class="pager-prev" data-back>
                                     PREV
                                     <span><?= $prev_post->post_title ?></span>
                                 </a>

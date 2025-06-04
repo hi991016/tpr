@@ -429,6 +429,14 @@ toggleArk?.forEach((btn) => {
   });
 });
 
+document.querySelectorAll("[data-back]")?.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    setTimeout(() => {
+      popupArk.classList.remove("active");
+    }, 1000);
+  });
+});
+
 // show popup info artwork
 
 // ===== init custom cursor =====

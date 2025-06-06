@@ -140,7 +140,8 @@
                                 <?php if (!empty($next_post)) : ?>
                                 <a href="<?= get_permalink($next_post->ID); ?>" class="pager-next" data-back>
                                     NEXT
-                                    <span><?= $next_post->post_title ?></span>
+                                    <span><?= get_field('name', $next_post->ID); ?></span>
+                                    <span><?= get_field('title', $next_post->ID); ?></span>
                                 </a>
                                 <?php endif; ?>
                                 <!-- // -->
@@ -153,7 +154,8 @@
                                 <?php if (!empty($prev_post)) : ?>
                                 <a href="<?= get_permalink($prev_post->ID); ?>" class="pager-prev" data-back>
                                     PREV
-                                    <span><?= $prev_post->post_title ?></span>
+                                    <span><?= get_field('name', $prev_post->ID); ?></span>
+                                    <span><?= get_field('title', $prev_post->ID); ?></span>
                                 </a>
                                 <?php endif; ?>
                             </div>

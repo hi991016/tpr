@@ -375,9 +375,9 @@ const [imgArk, captionArk, totalArk, currentArk, toggleArk, popupArk] = [
   document.querySelectorAll("[data-artwork-img]"),
   document.querySelector("[data-artwork-caption]"),
   document.querySelector("[data-artwork-total]"),
-  document.querySelector("[data-artwork-current"),
-  document.querySelectorAll("[data-artwork-toggler"),
-  document.querySelector("[data-artwork-popup"),
+  document.querySelector("[data-artwork-current]"),
+  document.querySelectorAll("[data-artwork-toggler]"),
+  document.querySelector("[data-artwork-popup]"),
 ];
 let swiperArk;
 
@@ -423,12 +423,25 @@ const swiperArtwork = function () {
 };
 swiperArtwork();
 
+// show/hide
 toggleArk?.forEach((btn) => {
   btn.addEventListener("click", () => {
     popupArk.classList.toggle("active");
   });
 });
 
+// close when click closet a & data attribute
+if (window.innerWidth > 1023) {
+  popupArk?.addEventListener("click", (event) => {
+    const isLink =
+      event.target.closest("a") || event.target.closest("[data-cursor-link]");
+    if (!isLink) {
+      popupArk.classList.remove("active");
+    }
+  });
+}
+
+// back page
 document.querySelectorAll("[data-back]")?.forEach((btn) => {
   btn.addEventListener("click", () => {
     setTimeout(() => {
@@ -436,8 +449,6 @@ document.querySelectorAll("[data-back]")?.forEach((btn) => {
     }, 1000);
   });
 });
-
-// show popup info artwork
 
 // ===== init custom cursor =====
 const initCustomCursor = () => {

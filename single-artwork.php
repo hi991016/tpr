@@ -108,8 +108,8 @@
                 <div class="popup__container">
                     <div class="popup__wrapper l-wrapper">
                         <div class="popup__top">
-                            <p data-artwork-toggler>close</p>
-                            <p onclick="window.history.back()" data-back>back</p>
+                            <p data-artwork-toggler data-cursor-link>close</p>
+                            <p onclick="window.history.back()" data-back data-cursor-link>back</p>
                         </div>
                         <div class="popup__inner">
                             <div class="popup__heading">

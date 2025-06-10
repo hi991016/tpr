@@ -1474,6 +1474,18 @@ button.swiper-pagination-bullet {
   overflow: hidden;
 }
 
+.p-top__grid figure:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: #000;
+  opacity: 0.03;
+}
+
 .p-top__grid figure img {
   position: absolute;
   top: 0;
@@ -1956,16 +1968,13 @@ button.swiper-pagination-bullet {
 .p-detail__swiper .swiper-slide {
   counter-increment: item;
   width: auto;
-  max-width: fit-content;
-  height: 97.077vh;
-  min-height: 794px;
+  height: 55.35vw;
 }
 
 .p-detail__swiper .swiper-slide figure {
   margin-bottom: 0px;
   width: 100%;
   height: calc(100% - 43px);
-  background-color: #ccc;
 }
 
 .p-detail__swiper .swiper-slide:after {
@@ -1995,8 +2004,8 @@ button.swiper-pagination-bullet {
 
 .p-detail__swiper .swiper-slide img {
   width: auto;
-  max-width: 100%;
   height: 100%;
+  -o-object-fit: cover;
   object-fit: cover;
 }
 
@@ -2021,6 +2030,12 @@ button.swiper-pagination-bullet {
   display: block;
   font-weight: 500;
   line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
 }
 
 .p-detail__pager span:first-child {
@@ -2756,6 +2771,17 @@ button.swiper-pagination-bullet {
 .artworkpage .popup__top p {
   cursor: pointer;
   text-transform: uppercase;
+}
+
+@media only screen and (min-width: 1024px) {
+  [data-artwork-popup] {
+    cursor: url("../img/close.png"), auto;
+  }
+
+  [data-artwork-popup] a,
+  [data-artwork-popup] [data-cursor-link] {
+    cursor: pointer;
+  }
 }
 
 @media only screen and (max-width: 1023px) {

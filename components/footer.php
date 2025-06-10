@@ -4,7 +4,7 @@
             <div class="c-footer__left">
                 <div class="c-footer__col">
                     <p class="c-footer__title">mailnews</p>
-                    <p class="c-footer__subscribe" id="subscribeBtn">
+                    <p class="c-footer__subscribe" id="subscribeBtn" data-cursor-link>
                         subscribe <span>→</span>
                     </p>
                 </div>
